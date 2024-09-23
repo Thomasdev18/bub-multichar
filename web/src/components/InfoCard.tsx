@@ -22,7 +22,7 @@ const InfoCard: React.FC<Props> = (props) => {
   return (
     <div className='character-card-charinfo'>
       {icon}
-      <Text size="sm">{props.label}</Text>
+      <Text fw={500} size="lg">{props.label}</Text>
     </div>
   );
 };

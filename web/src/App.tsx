@@ -12,11 +12,13 @@ import {
 	Title,
 	Modal,
 	ScrollArea,
+	UnstyledButton,
+	ActionIcon, // Import ActionIcon
 } from "@mantine/core";
 import { useNuiEvent } from "./hooks/useNuiEvent";
 import {
 	IconPlayerPlay,
-	IconPlus,
+	IconPlus, // Use IconPlus for Create Button
 	IconTrash,
 	IconUsersGroup,
 } from "@tabler/icons-react";
@@ -36,37 +38,6 @@ interface Character {
 }
 
 const DEBUG_CHARACTERS: Character[] = [
-	{
-		citizenid: "Whatever",
-		name: "John Doe",
-		metadata: [
-			{
-				key: "job",
-				value: "Police",
-			},
-			{
-				key: "nationality",
-				value: "Denmark",
-			},
-			{
-				key: "bank",
-				value: "100.0000",
-			},
-			{
-				key: "cash",
-				value: "430.000",
-			},
-			{
-				key: "birthdate",
-				value: "12-10-1899",
-			},
-			{
-				key: "gender",
-				value: "Male",
-			},
-		],
-		cid: 1,
-	},
 	{
 		citizenid: "Whatever12",
 		name: "Jenna Doe",
@@ -198,7 +169,7 @@ function App() {
 				<Text size='sm'>Are you sure you want to delete your character?</Text>
 			),
 			labels: { confirm: "Delete character", cancel: "Cancel" },
-			confirmProps: { color: "red" },
+			confirmProps: { color: "red"},
 			onCancel: () => console.log("Cancel"),
 			onConfirm: () => HandleDelete(citizenid),
 		});
@@ -221,12 +192,11 @@ function App() {
 				<div className='container'>
 					{visible && (
 						<div className='character-selector-top'>
-							<IconUsersGroup size={45} color='#228be6' />
-							<Title order={2} fz={32} c={"blue"}>
-								Character Selector
+							<Title order={1} fz={32} c={"white"}>
+								ELEMENT ROLLESPILL
 							</Title>
-							<Text fw={500} fz={14}>
-								Select the character you want to play
+							<Text fw={500} fz={15} c={"white"}>
+								VELG KARAKTER
 							</Text>
 						</div>
 					)}
@@ -238,108 +208,94 @@ function App() {
 									{[...Array(allowedCharacters)].map((_, index) => {
 										const character = characters[index];
 										return character ? (
-											<div className='character-card'>
-												<Group justify='space-between'>
-													<Text fw={500}>{character.name}</Text>
-													<Badge
-														color='rgba(196, 196, 196, 1)'
-														variant='light'
-														radius='sm'
+											<UnstyledButton
+												key={character.citizenid}
+												onClick={() => HandleSelect(character.cid, character.citizenid)}
+											>
+												<div className='character-card'>
+													<Group justify='space-between'>
+														<Text fw={500}>{character.name}</Text>
+														<Badge
+															color='gray'
+															variant='light'
+															radius='xs'
+														>
+															{character.citizenid}
+														</Badge>
+													</Group>
+
+													<div
+														className={
+															isSelected === character.cid ? "show" : "hide"
+														}
 													>
-														{character.citizenid}
-													</Badge>
-												</Group>
+														<SimpleGrid cols={2} spacing={3}>
+															{character.metadata &&
+																character.metadata.length > 0 &&
+																character.metadata.map((metadata) => (
+																	<InfoCard
+																		key={metadata.key}
+																		icon={metadata.key}
+																		label={metadata.value}
+																	/>
+																))}
+														</SimpleGrid>
 
-												<div
-													className={
-														isSelected === character.cid ? "show" : "hide"
-													}
-												>
-													<SimpleGrid cols={2} spacing={3}>
-														{character.metadata &&
-															character.metadata.length > 0 &&
-															character.metadata.map((metadata) => (
-																<InfoCard
-																	key={metadata.key}
-																	icon={metadata.key}
-																	label={metadata.value}
-																/>
-															))}
-													</SimpleGrid>
+														<div className='character-card-actions'>
+															<Button
+																color='teal'
+																variant='light'
+																fullWidth
+																radius="xs"
+																leftSection={<IconPlayerPlay size={14} />}
+																h={45}
+																onClick={() => {
+																	HandlePlay(character.citizenid);
+																}}
+															>
+																Play
+															</Button>
 
-													<Divider color='gray' />
-
-													<div className='character-card-actions'>
-														<Button
-															color='green'
-															variant='light'
-															fullWidth
-															leftSection={<IconPlayerPlay size={14} />}
-															h={30}
-															onClick={() => {
-																HandlePlay(character.citizenid);
-															}}
-														>
-															Play
-														</Button>
-
-														<Button
-															color='red'
-															variant='light'
-															fullWidth
-															leftSection={<IconTrash size={14} />}
-															h={30}
-															onClick={() => {
-																openDeleteModal(character.citizenid);
-															}}
-														>
-															Delete
-														</Button>
+															<Button
+																color='red'
+																variant='light'
+																radius="xs"
+																fullWidth
+																leftSection={<IconTrash size={14} />}
+																h={45}
+																onClick={() => {
+																	openDeleteModal(character.citizenid);
+																}}
+															>
+																Delete
+															</Button>
+														</div>
 													</div>
 												</div>
-
-												<div
-													className={
-														isSelected === character.cid ? "hide" : "show"
-													}
-												>
-													<Button
-														color='blue'
-														variant='light'
-														fullWidth
-														h={30}
-														onClick={() => {
-															HandleSelect(character.cid, character.citizenid);
-														}}
-													>
-														Select
-													</Button>
-												</div>
-											</div>
-										) : (
-											<div
-												className='character-card create-card'
-												key={`create-${index}`}
-											>
-												<Button
-													color='blue'
-													variant='light'
-													fullWidth
-													leftSection={<IconPlus size={24} />}
-													onClick={() => {
-														open();
-														setCreateCharacterId(index);
-													}}
-												>
-													Create New Character
-												</Button>
-											</div>
-										);
+											</UnstyledButton>
+										) : null;
 									})}
 								</div>
 							</ScrollArea>
 						)}
 					</Transition>
+
+					{/* Action Icon for Create Character */}
+					{visible && (
+					<ActionIcon
+						variant="filled"
+						color="dark"
+						onClick={open}
+						style={{
+							position: "absolute",
+							top: "10px",
+							right: "10px",
+						}}
+						size={50}
+					>
+						<IconPlus size={30} />
+					</ActionIcon>
+					)}
 				</div>
 			</div>
 		</>

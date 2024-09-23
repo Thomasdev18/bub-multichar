@@ -47,30 +47,30 @@ const CreateCharacterModal: React.FC<Props> = (props) => {
 				<TextInput
 					data-autofocus
 					required
-					placeholder='Your firstname'
-					label='Firstname'
+					placeholder='Ditt Fornavn'
+					label='Fornavn'
 					{...form.getInputProps("firstName")}
 				/>
 
 				<TextInput
 					required
-					placeholder='Your lastname'
-					label='Lastname'
+					placeholder='Ditt Etternavn'
+					label='Etternavn'
 					{...form.getInputProps("lastName")}
 				/>
 			</Group>
 
 			<TextInput
 				required
-				placeholder='Your nationality'
-				label='Nationality'
+				placeholder='Nasjonalitet'
+				label='Velg Nasjonalitet'
 				{...form.getInputProps("nationality")}
 			/>
 
 			<Select
 				required
-				label='Gender'
-				placeholder='Pick your gender'
+				label='Kjønn'
+				placeholder='Velg Kjønn'
 				data={["Male", "Female"]}
 				defaultValue='Male'
 				allowDeselect={false}
@@ -80,7 +80,7 @@ const CreateCharacterModal: React.FC<Props> = (props) => {
 			<DatePickerInput
 				leftSection={icon}
 				leftSectionPointerEvents='none'
-				label='Pick birthdate'
+				label='Velg Fødselsdato'
 				placeholder={"YYYY-MM-DD"}
 				valueFormat='YYYY-MM-DD'
 				defaultValue={new Date("2006-12-31")}
@@ -89,8 +89,8 @@ const CreateCharacterModal: React.FC<Props> = (props) => {
 				{...form.getInputProps("birthdate")}
 			/>
 
-			<Group justify='flex-end' mt='xl'>
-				<Button color='green' variant='light' type='submit'>
+			<Group justify='flex-end' mt='sm'>
+				<Button color='teal' h={45} fullWidth variant='light' type='submit'>
 					Create
 				</Button>
 			</Group>

@@ -24,23 +24,23 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 50px;
+  gap: 25px;
 }
 
 .character-card {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background-color: rgba(27, 27, 27, 0.8);
+  gap: 5px;
+  background-color: #1A1B1E;
   color: white;
-  padding: 20px;
-  width: 375px;
-  border-radius: 10px;
+  padding: 10px;
+  width: 320px;
+  border-radius: 5px;
 }
 
 .character-card-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 5px;
 }
 
